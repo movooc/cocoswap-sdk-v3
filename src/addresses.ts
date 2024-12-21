@@ -111,6 +111,17 @@ const BNB_ADDRESSES: ChainAddresses = {
   swapRouter02Address: '0xB971eF87ede563556b2ED4b1C0b0019111Dd85d2'
 }
 
+// BNB v3 addresses
+const BNB_TEST_ADDRESSES: ChainAddresses = {
+  v3CoreFactoryAddress: '0xd17525f96447ca278f67474ac22dbf14d282828f',
+  multicallAddress: '0x963Df249eD09c358A4819E39d9Cd5736c3087184',
+  quoterAddress: '0x78D78E420Da98ad378D7799bE8f4AF69033EB077',
+  v3MigratorAddress: '0x32681814957e0C13117ddc0c2aba232b5c9e760f',
+  nonfungiblePositionManagerAddress: '0xAe7228420cdE963D45c9A5e03643636A88B0284a',
+  tickLensAddress: '0xD9270014D396281579760619CCf4c3af0501A47C',
+  swapRouter02Address: '0x49d979983374f4A8910145b4F3E9007b5CA7F7CA'
+}
+
 // optimism goerli addresses
 const OPTIMISM_GOERLI_ADDRESSES: ChainAddresses = {
   v3CoreFactoryAddress: '0xB656dA17129e7EB733A557f4EBc57B76CFbB5d10',
@@ -256,7 +267,8 @@ export const CHAIN_TO_ADDRESSES_MAP: Record<SupportedChainsType, ChainAddresses>
   [ChainId.ZORA]: ZORA_ADDRESSES,
   [ChainId.ZORA_SEPOLIA]: ZORA_SEPOLIA_ADDRESSES,
   [ChainId.ROOTSTOCK]: ROOTSTOCK_ADDRESSES,
-  [ChainId.BLAST]: BLAST_ADDRESSES
+  [ChainId.BLAST]: BLAST_ADDRESSES,
+  [ChainId.BNB_TEST]: BNB_TEST_ADDRESSES
 }
 
 /* V3 Contract Addresses */
