@@ -7,8 +7,10 @@ import _Big from 'big.js'
 
 import toFormat from 'toformat'
 import { BigintIsh, Rounding, MaxUint256 } from '../../constants'
+import { Ether } from '../ether'
 
 const Big = toFormat(_Big)
+const ETHER_INSTANCE = new Ether(97)
 
 export class CurrencyAmount<T extends Currency> extends Fraction {
   public readonly currency: T
@@ -42,6 +44,10 @@ export class CurrencyAmount<T extends Currency> extends Fraction {
     invariant(JSBI.lessThanOrEqual(this.quotient, MaxUint256), 'AMOUNT')
     this.currency = currency
     this.decimalScale = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(currency.decimals))
+  }
+
+  public get raw(): JSBI {
+    return this.numerator
   }
 
   public add(other: CurrencyAmount<T>): CurrencyAmount<T> {
@@ -91,5 +97,9 @@ export class CurrencyAmount<T extends Currency> extends Fraction {
   public get wrapped(): CurrencyAmount<Token> {
     if (this.currency.isToken) return this as CurrencyAmount<Token>
     return CurrencyAmount.fromFractionalAmount(this.currency.wrapped, this.numerator, this.denominator)
+  }
+
+  public static ether(amount: BigintIsh): CurrencyAmount<Currency> {
+    return new CurrencyAmount(ETHER_INSTANCE, amount)
   }
 }

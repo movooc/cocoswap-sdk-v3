@@ -5,6 +5,7 @@ import { BigintIsh, Rounding } from '../../constants'
 import { Currency } from '../currency'
 import { Fraction } from './fraction'
 import { CurrencyAmount } from './currencyAmount'
+import { Route } from '../route'
 
 export class Price<TBase extends Currency, TQuote extends Currency> extends Fraction {
   public readonly baseCurrency: TBase // input i.e. denominator
@@ -85,4 +86,20 @@ export class Price<TBase extends Currency, TQuote extends Currency> extends Frac
   public toFixed(decimalPlaces: number = 4, format?: object, rounding?: Rounding): string {
     return this.adjustedForDecimals.toFixed(decimalPlaces, format, rounding)
   }
+  public static fromRoute<TBase extends Currency, TQuote extends Currency>(route: Route): Price<TBase, TQuote> {
+    const prices: Price<Currency, Currency>[] = []
+    for (const [i, pair] of route.pairs.entries()) {
+      prices.push(
+        route.path[i].equals(pair.token0)
+          ? new Price(pair.reserve0.currency, pair.reserve1.currency, pair.reserve0.raw, pair.reserve1.raw)
+          : new Price(pair.reserve1.currency, pair.reserve0.currency, pair.reserve1.raw, pair.reserve0.raw)
+      )
+    }
+    return prices.slice(1).reduce((accumulator, currentValue) => accumulator.multiply(currentValue), prices[0]) as Price<TBase, TQuote>;
+  }
+  
+  public get raw(): Fraction {
+    return new Fraction(this.numerator, this.denominator)
+  }
+
 }
