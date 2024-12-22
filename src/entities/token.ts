@@ -11,6 +11,7 @@ import { ChainId } from '../constants'
 export class Token extends BaseCurrency {
   public readonly isNative: false = false
   public readonly isToken: true = true
+  public readonly isEther: false = false
 
   /**
    * The contract address on the chain on which this token lives
